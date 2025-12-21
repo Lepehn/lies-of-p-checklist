@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Lies of P Checklist</title>
+
+<style>
+:root {
+  /* Core Colors*/
+  --background: #141414;
+  --card: #1E1E1E;
+  --card-inlay: #1a1a1a;
+  --button: #262626;
+  --hover: #383838;
+  --border: #222;
+  --radius: 8px;
+  
+  /* Fonts */
+  --font-main: Arial, sans-serif;
+  --font-size-small: 14px;
+  --font-size-medium: 16px;
+  --font-size-large: 18px;
+  --font-size-extra-large: 24px;
+
+  /* Text Colors */
+  --text: #fff;
+  --text-muted: #999;
+
+  /* Status Colors */
+  --status-completed: #278041;
+  --status-inprogress: #1177a3;
+  --status-notstarted: #616161;
+  --status-onhold: #a62327;
+  --status-hundred: #689a2e;
+  --progressbar: #4caf50;
+  --status-text: var(--text);
+  
+  /* Tag Colors */
+  --tag-required: #1177a3;
+  --tag-optional: #616161;
+  --tag-collectible: #616161;
+  
+  --tag-dlc: #c51162;
+  --tag-ng: #d79934;
+}
+
+body {
+  margin: 0;
+  margin-bottom: 120px;
+  background: var(--background);
+  font-family: var(--font-main);
+  color: var(--text);
+}
+
+/* Navigation */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  border-bottom: 1px solid var(--border);
+}
+.navbar .logo { font-size: var(--font-size-extra-large); font-weight: bold;}
+.navbar .menu { display: flex; gap: 30px; }
+.navbar .menu a {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: var(--font-size-medium);
+  cursor: pointer;
+}
+.navbar .menu a.active { color: var(--text); }
+
+/* Layout */
+.container {
+  max-width: 1920px;
+  width: 100%;
+  margin: 60px auto 0;
+  padding: 0 20px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+  margin-top: 30px;
+}
+.grid2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 25px;
+  margin-top: 30px;
+}
+
+/* Cards */
+.card {
+  background: var(--card);
+  padding: 20px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+}
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 10px;
+}
+.card-header h3 {
+  margin: 0;
+  font-size: var(--font-size-large);
+}
+
+/* Charts */
+.chart-status,
+.chart-platform,
+.card canvas {
+  display: block;
+  margin: 0 auto;
+  width: 100% !important;
+  max-height: 250px;
+}
+
+.games { grid-column: span 2; }
+
+/* Buttons */
+.button-report,
+.button-delete svg {
+  background: var(--button);
+  padding: 6px 12px;
+  margin-bottom: 6px;
+  border-radius: var(--radius);
+  font-size: var(--font-size-small);
+  cursor: pointer;
+  color: var(--text);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.button-report:hover,
+.button-delete svg:hover {
+  background: var(--hover);
+}
+
+/* Table */
+table { width: 100%; border-collapse: collapse; }
+table td, table th {
+  padding: 12px 6px;
+  border-bottom: 1px solid var(--border);
+  font-size: var(--font-size-small);
+}
+table th { color: var(--text-muted); text-align: left; }
+
+/* Lists */
+ul { padding-left: 20px; }
+ul li { margin-bottom: 8px; font-size: var(--font-size-medium); }
+
+/* Scroll */
+.scrollable-list-small,
+.scrollable-list-large {
+  margin-top: 12px;
+  overflow-y: auto;
+  padding-right: 8px;
+  scrollbar-color: var(--hover) var(--card-inlay);
+}
+.scrollable-list-small { max-height: 160px; }
+.scrollable-list-large { max-height: 400px; }
+
+#gameSearch { padding:6px; width:300px; border-radius: var(--radius); border:1px solid var(--border); background: var(--card-inlay); color: var(--text); font-size:var(--font-size-small); }
+
+/* Selects */
+.statusSelect {
+  padding: 6px 12px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  font-size: var(--font-size-small);
+  background: var(--button);
+  color: var(--text-muted);
+}
+
+.statusSelect {
+  color: var(--status-text);
+}
+
+/* Status Colors */
+.statusNotStarted { background: var(--status-notstarted); }
+.statusInProgress { background: var(--status-inprogress); }
+.statusCompleted { background: var(--status-completed); }
+.statusOnHold { background: var(--status-onhold); }
+.statusHundred { background: var(--status-hundred); }
+
+/* Notes */
+.note { 
+  padding: 6px 12px;
+  border-radius: var(--radius);
+  font-size: var(--font-size-small);
+  color:#aaa; 
+  background:#1a1a1a; 
+  margin-top:8px; 
+  margin-bottom:8px; 
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  word-wrap: break-word;
+}
+
+/* Tags */
+.tag-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: var(--radius);
+  font-size: var(--font-size-small);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* Tag Colors */
+.tag.Required {
+  background: var(--tag-required);
+  color: var(--status-text);
+}
+
+.tag.Optional {
+  background: var(--tag-optional);
+  color: var(--status-text);
+}
+
+.tag.Collectible {
+  background: var(--tag-collectible);
+  color: var(--status-text);
+}
+
+.tag.DLC {
+  background: var(--tag-dlc);
+  color: var(--status-text);
+}
+
+.tag.NG {
+  background: var(--tag-ng);
+  color: var(--status-text);
+}
+
+/* Progress Bar */
+.progress-bar {
+  background: var(--card-inlay);
+  width: 100%;
+  height: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 10px;
+}
+.progress-bar-fill {
+  background: var(--progressbar);
+  height: 100%;
+  width: 0%;
+  transition: width 0.4s ease;
+}
+
+/* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  justify-content: center;
+  align-items: center;
+  z-index: 40;
+}
+.modal-content {
+  background: var(--card);
+  padding: 20px;
+  border-radius: var(--radius);
+  width: 320px;
+  max-width: 95%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.modal-content select,
+.modal-content button {
+  padding: 8px;
+  border-radius: var(--radius);
+  border: none;
+  font-size: var(--font-size-small);
+  background: var(--button);
+  color: var(--text);
+}
+#closeModal { background: var(--button); }
+
+/* Cerulean Theme */
+body.alt-theme {
+  /* Core Colors */
+  --background: #0F1C23;
+  --card: #162933;
+  --card-inlay: #13262C;
+  --button: #1D3B48;
+  --hover: #2A4F63;
+  --border: #1A3642;
+  --radius: 8px;
+
+  /* Text Colors */
+  --text: #fff;
+  --text-muted: #999;
+  
+  /* Status Colors */
+  --status-text: var(--text);
+}
+
+/* Scandi Theme */
+body.scandi-theme {
+  /* Core Colors */
+  --background: #efe8dd;
+  --card: #cab3a0;
+  --card-inlay: #decabd;
+  --button: #decabd;
+  --hover: #edeae5;
+  --border: #decabd;
+  --radius: 8px;
+
+  /* Text Colors */
+  --text: #434341;
+  --text-muted: #373A3A;
+  
+  /* Status Colors */
+  --status-text: var(--hover);
+}
+
+/* Scandi Theme */
+body.discord-theme {
+  /* Core Colors */
+  --background: #121214;
+  --card: #1A1A1E;
+  --card-inlay: #17171B;
+  --button: #212125;
+  --hover: #323235;
+  --border: #222;
+  --radius: 8px;
+
+  /* Text Colors */
+  --text: #fff;
+  --text-muted: #999;
+  
+  /* Status Colors */
+  --status-text: var(--text);
+}
+
+/* Responsive */
+@media (max-width:900px){
+  .grid { grid-template-columns: 1fr; }
+  .games { grid-column: auto; }
+}
+
+#importBtn .material-symbols-outlined {
+  font-size: 18px;
+  vertical-align: middle;
+  line-height: 0;
+}
+
+#exportBtn .material-symbols-outlined {
+  font-size: 18px;
+  vertical-align: middle;
+  line-height: 0;
+}
+
+.card .material-symbols-outlined {
+  font-size: 24px;
+  vertical-align: bottom;
+  line-height: 1;
+}
+
+.menu .material-symbols-outlined {
+  font-size: 24px;
+  vertical-align: middle;
+  line-height: 0;
+}
+
+</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=add,check,delete,download,list,progress_activity,settings,upload" />
+</head>
+
+<body>
+
+<div class="navbar">
+  <div class="logo">.checklist</div>
+  <div class="menu">
+    <a class="active" href="#">Dashboard</a>
+    <a href="#">Stats</a>
+    <a href="#" id="openSettingsModal">Settings</a>
+  </div>
+  <div class="logo">/lies-of-p</div>
+</div>
+
+<div class="container">
+  <!-- Dashboard content -->
+  <div id="dashboardContent">
+  <h1>Dashboard</h1>
+      <div class="grid">
+      <div class="card">
+        <div class="card-header"><h3><span class="material-symbols-outlined">check</span> Recently Completed</h3></div>
+        <div class="scrollable-list-small" id="recentlyPlayed"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><h3><span class="material-symbols-outlined">progress_activity</span> In Progress</h3></div>
+        <div class="scrollable-list-small" id="inProgress"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><h3><span class="material-symbols-outlined">list</span> Summary</h3></div>
+        <ul id="summary"></ul>
+      </div>
+      
+            <div class="card games">
+        <div class="card-header">
+          <h3>Lies of P Checklist</h3>
+          <span class="button-report" id="exportBtn">          
+           <span class="material-symbols-outlined">download</span>Export
+          </span>
+          
+          <span class="button-report" id="importBtn">
+           <span class="material-symbols-outlined">upload</span>Import
+          </span>
+          
+          <input type="file" id="importJSON" accept=".json" style="display:none;">
+          <input type="text" id="gameSearch" placeholder="Search...">
+        </div>
+       
+       <span class="button-report" data-cat="bosses">Bosses</span>
+       <span class="button-report" data-cat="miniBosses">Mini-Bosses</span>
+       <span class="button-report" data-cat="normalWeapons">Normal Weapons</span>
+       <span class="button-report" data-cat="specialWeapons">Special Weapons</span>
+       <span class="button-report" data-cat="legionArms">Legion Arms</span>
+       <span class="button-report" data-cat="emotes">Emotes</span>
+       <span class="button-report" data-cat="vessels">Vessels</span>
+       <span class="button-report" data-cat="records">Records</span>
+       <span class="button-report" data-cat="dlcBosses">DLC Bosses</span>
+       <span class="button-report" data-cat="dlcGear">DLC Weapons/Legion Arms</span>
+       <span class="button-report" data-cat="dlcRecords">DLC Records</span>
+
+        <div class="scrollable-list-large">
+        <ul id="questCategoryContainer"></ul>
+          <table id="questsTable">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Type</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+      
+      <div class="card" style="max-height:120px">
+        <div class="card-header"><h3>Completion Goal</h3></div>
+        <div class="completion-goal" id="completionText"></div>
+        <div class="progress-bar">
+          <div class="progress-bar-fill" id="completionBar"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+    <!-- Stats content -->
+  <div id="statsContent" style="display:none;">
+    <h1>Game Stats</h1>
+    <div class="grid2">
+      <div class="card" style="max-height:360px">
+        <div class="card-header"><h3>Overall Status</h3></div>
+        <canvas id="categoryChart" class="chart-status"></canvas>
+      </div>
+      <div class="card" style="max-height:120px">
+        <div class="card-header"><h3>Completion Goal</h3></div>
+        <div class="completion-goal" id="completionTextStats"></div>
+        <div class="progress-bar">
+      		<div class="progress-bar-fill" id="completionBarStats"></div>
+       </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Settings Modal -->
+<div id="settingsModal" class="modal">
+  <div class="modal-content">
+    <h3>Settings</h3>
+
+    <h4>Choose Theme</h4>
+    <button class="theme-btn" data-theme="default">Woodsmoke</button>
+    <button class="theme-btn" data-theme="alt">Cerulean</button>
+    <button class="theme-btn" data-theme="scandi">Scandi</button>
+    <button class="theme-btn" data-theme="discord-dark">Discord Dark</button>
+
+    <button id="closeSettingsModal">Close</button>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+/*----------- stats ----------*/
+let categoryChart;
+
+function updateStats() {
+
+  // Helper: calculate completion %
+  function completionPercent(list) {
+    let completed = 0;
+
+    list.forEach(q => {
+      if (q.status === "Completed" || q.status === "Hundred") {
+        completed++;
+      }
+    });
+
+    return list.length
+      ? Math.round((completed / list.length) * 100)
+      : 0;
+  }
+
+  /* -------- CATEGORY DATA -------- */
+  const categoryLabels = [
+    "Bosses", 
+    "Mini-Bosses",
+    "Normal Weapons",
+    "Special Weapons",
+    "Legion Arms",
+    "Emotes",
+    "Vessels",
+    "Records",
+    "DLC Bosses",
+    "DLC Weapons/Legion Arms",
+    "DLC Records"
+  ];
+
+  const categoryValues = [
+    completionPercent(quests.bosses),
+    completionPercent(quests.miniBosses),
+    completionPercent(quests.normalWeapons),
+    completionPercent(quests.specialWeapons),
+    completionPercent(quests.legionArms),
+    completionPercent(quests.emotes),
+    completionPercent(quests.vessels),
+    completionPercent(quests.records),
+    completionPercent(quests.dlcBosses),
+    completionPercent(quests.dlcGear),
+    completionPercent(quests.dlcRecords)
+  ];
+
+  /* -------- Chart setup -------- */
+  const ctx = document.getElementById("categoryChart")?.getContext("2d");
+  if (!ctx) return;
+
+  const cardInlay = getComputedStyle(document.documentElement)
+    .getPropertyValue("--card-inlay")
+    .trim();
+
+  const textColor = getComputedStyle(document.documentElement)
+    .getPropertyValue("--text")
+    .trim();
+
+  Chart.defaults.color = textColor;
+
+  if (categoryChart) categoryChart.destroy();
+
+  categoryChart = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: categoryLabels,
+      datasets: [{
+        label: "Completion %",
+        data: categoryValues,
+        backgroundColor: "#1177a3"
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true,
+          max: 100,
+          ticks: {
+            callback: v => v + "%"
+          }
+        }
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => ctx.parsed.y + "%"
+          }
+        }
+      }
+    },
+    plugins: [{
+      beforeDraw: chart => {
+        const ctx = chart.ctx;
+        ctx.save();
+        ctx.fillStyle = cardInlay;
+        ctx.fillRect(0, 0, chart.width, chart.height);
+        ctx.restore();
+      }
+    }]
+  });
+}
+
+/* -----------------------
+   HARD-CODED QUEST DATA
+   ----------------------- */
+const quests = {
+  bosses: [
+    { name: "Parade Master", tag: "Required", status: "NotStarted", note: ""},
+    { name: "Scrapped Watchman", tag: "Required", status: "NotStarted", note: ""},
+    { name: "King's Flame, Fuoco", tag: "Required", status: "NotStarted", note: ""},
+    { name: "Fallen Archbishop Andreus", tag: "Required", status: "NotStarted", note: ""},
+    { name: "Eldest of the Black Rabbit Brotherhood", tag: "Required", status: "NotStarted", note: ""},
+    { name: "King of Puppets", tag: "Required", status: "NotStarted", note: ""},
+    { name: "Romeo, King of Puppets", tag: "Required", status: "NotStarted", note: ""},
+    { name: "Champion Victor", tag: "Required", status: "NotStarted", note: ""},
+    { name: "Green Monster of the Swamp", tag: "Required", status: "NotStarted", note: ""},
+    { name: "Puppet-Devouring Green Monster", tag: "Required", status: "NotStarted", note: ""},
+    { name: "Corrupted Parade Master", tag: "Required", status: "NotStarted", note: ""},
+    { name: "Black Rabbit Brotherhood", tag: "Required", status: "NotStarted", note: ""},
+    { name: "Laxasia the Complete", tag: "Required", status: "NotStarted", note: ""},
+    { name: "Simon Manus, Awakened God (Arm of God)", tag: "Required", status: "NotStarted", note: ""},
+    { name: "Nameless Puppet", tag: "Required", status: "NotStarted", note: ""}
+  ],
+  miniBosses: [
+    { name: "Mad Donkey", tag: "Optional", status: "NotStarted", note: ""},
+    { name: "Puppet of the Future", tag: "Optional", status: "NotStarted", note: ""},
+    { name: "Survivor", tag: "Optional", status: "NotStarted", note: ""},
+    { name: "The Atoned", tag: "Optional", status: "NotStarted", note: ""},
+    { name: "White Lady", tag: "Optional", status: "NotStarted", note: ""},
+    { name: "Mad Clown Puppet", tag: "Optional", status: "NotStarted", note: ""},
+    { name: "Owl Doctor", tag: "Optional", status: "NotStarted", note: ""},
+    { name: "Walker of Illusions", tag: "Optional", status: "NotStarted", note: ""},
+    { name: "Door Guardian", tag: "Optional", status: "NotStarted", note: ""},
+    { name: "Robber Weasel", tag: "Optional", status: "NotStarted", note: ""},
+    { name: "Red Fox", tag: "Optional", status: "NotStarted", note: ""},
+    { name: "Black Cat", tag: "Optional", status: "NotStarted", note: ""}
+  ],
+  normalWeapons: [
+    { name: "Puppet’s Saber Blade", tag: "Collectible", status: "NotStarted", note: "Cerasani Alley: Merchant" },
+    { name: "Wintry’s Rapier Blade", tag: "Collectible", status: "NotStarted", note: "Cerasani Alley: Merchant" },
+    { name: "Greatsword of Fate Blade", tag: "Collectible", status: "NotStarted", note: "Cerasani Alley: Merchant" },
+    { name: "Electric Coil Stick Head", tag: "Collectible", status: "NotStarted", note: "Inside the House on Elysion Boulevard: Merchant" },
+    { name: "Krat Police Baton Head", tag: "Collectible", status: "NotStarted", note: "Inside the House on Elysion Boulevard: Kill the Police Officer Puppet in the same area where the Weeping Women is" },
+    { name: "Salamander Dagger Blade", tag: "Collectible", status: "NotStarted", note: "Workshop Union Entrance: In a safe behind the locked green door next to the stargazer. Enter from a hole above the room" },
+    { name: "Booster Glaive Blade", tag: "Collectible", status: "NotStarted", note: "Workshop Union Entrance: Behind the Puppet of the Future mini-boss in the decay river" },
+    { name: "Fire Axe Blade", tag: "Collectible", status: "NotStarted", note: "Workshop Union Culvert: End of the path with rolling fireballs, chest near a white puppet" },
+    { name: "Big Pipe Wrench Head", tag: "Collectible", status: "NotStarted", note: "Center of Venigni Works: Inside the mine, take the ladder to the very top where puppets throw bombs" },
+    { name: "Blind Man’s Double Spear", tag: "Collectible", status: "NotStarted", note: "St. Frangelico Cathedral Chapel: Chest while climbing the tower using the second giant gear-wheel as a platform" },
+    { name: "Acidic Crystal Spear", tag: "Collectible", status: "NotStarted", note: "Path of the Pilgrim: Down the path, then right near a red lit barrel and two bear traps" },
+    { name: "Bone-Cutting Saw", tag: "Collectible", status: "NotStarted", note: "Malum District: On the rooftops where enemies throw decay bombs" },
+    { name: "Bramble Curved Sword", tag: "Collectible", status: "NotStarted", note: "Malum District: Merchant in Red Lobster, accessed by ladder behind the shelf" },
+    { name: "Dancer’s Curved Sword", tag: "Collectible", status: "NotStarted", note: "Rosa Isabelle Street Entrance: Behind bomb-throwing and rifle-shooting puppets" },
+    { name: "Exploding Pickaxe Blade", tag: "Collectible", status: "NotStarted", note: "Estella Opera House Entrance: In the room where the elite clown bruiser appears" },
+    { name: "Tyrant Murder’s Dagger", tag: "Collectible", status: "NotStarted", note: "Hotel Krat: Given by Pulcinella after turning in the Incredible Venigni Collection" },
+    { name: "Clock Sword", tag: "Collectible", status: "NotStarted", note: "Charity Market Path: After Puppet King, ladder near a tunnel leads to chest" },
+    { name: "Circular Electric Chainsaw", tag: "Collectible", status: "NotStarted", note: "Lorenzini Arcade: Merchant" },
+    { name: "Spear of Honor", tag: "Collectible", status: "NotStarted", note: "Lorenzini Arcade: Safe surrounded by decay gas past the fountain" },
+    { name: "Live Puppet’s Axe", tag: "Collectible", status: "NotStarted", note: "Barren Swamp Entrance: Top floor of the first cannon tower" },
+    { name: "City Longspear", tag: "Collectible", status: "NotStarted", note: "Barren Swamp Ravine: In a shack after the cave with rolling rocks" },
+    { name: "Pistol Rock Drill", tag: "Collectible", status: "NotStarted", note: "Hotel Krat: Given by Pulcinella after turning in the Fancy Venigni Collection" },
+    { name: "Master Chef’s Knife", tag: "Collectible", status: "NotStarted", note: "Krat Central Station Platform: Chest behind luggage through a gated path near crawling enemies" },
+    { name: "Coil Mjolnir", tag: "Collectible", status: "NotStarted", note: "Krat Central Station Lobby: Chest in the plaza with the large fountain, back left corner" },
+    { name: "Military Shovel", tag: "Collectible", status: "NotStarted", note: "Abandoned Apartment: Merchant" },
+    { name: "Black Steel Cutter", tag: "Collectible", status: "NotStarted", note: "Barren Swamp Bridge: End of Hermit’s Cave" },
+    { name: "Cursed Knight’s Halberd", tag: "Collectible", status: "NotStarted", note: "Relic of Trismegistus Entrance: Chest on a broken bridge near an elite enemy" },
+    { name: "Acidic Great Curved Sword", tag: "Collectible", status: "NotStarted", note: "Arche Abbey Outer Wall: Chest in the room the scorpion enemy comes from after decay gas section" },
+    { name: "Carcass Crystal Axe", tag: "Collectible", status: "NotStarted", note: "Estella Opera Entrance: Buy from Subject 826 after completing his questline and freeing him from Arche Abbey" }
+  ],
+  specialWeapons: [
+    { name: "Seven-Coil Spring Sword", tag: "Collectible", status: "NotStarted", note: "Alidoro / Explorer Hugo" },
+    { name: "Etiquette", tag: "Collectible", status: "NotStarted", note: "Alidoro / Explorer Hugo" },
+    { name: "Holy Sword of the Ark", tag: "Collectible", status: "NotStarted", note: "Alidoro / Explorer Hugo" },
+    { name: "Trident of the Covenant", tag: "Collectible", status: "NotStarted", note: "Alidoro / Explorer Hugo" },
+    { name: "Puppet Ripper", tag: "Collectible", status: "NotStarted", note: "Alidoro / Explorer Hugo" },
+    { name: "Frozen Feast", tag: "Collectible", status: "NotStarted", note: "Alidoro / Explorer Hugo" },
+    { name: "Two Dragons Sword", tag: "Collectible", status: "NotStarted", note: "Alidoro / Explorer Hugo" },
+    { name: "Uroboros’s Eye", tag: "Collectible, NG", status: "NotStarted", note: "Alidoro / Explorer Hugo" },
+    { name: "Noblesse Oblige", tag: "Collectible, NG", status: "NotStarted", note: "Alidoro / Explorer Hugo" },
+    { name: "Proof of Humanity", tag: "Collectible, NG", status: "NotStarted", note: "Alidoro / Explorer Hugo" },
+    { name: "Golden Lie Weapon", tag: "Collectible, NG", status: "NotStarted", note: "Interact with the portrait in Gepetto's office once it shimmers gold, available after defeating Simon or after the credits" }
+  ],
+  legionArms: [
+    { name: "Left Arm of Steel", tag: "Collectible", status: "NotStarted", note: "" },
+    { name: "Puppet String", tag: "Collectible", status: "NotStarted", note: "" },
+    { name: "Fulminis", tag: "Collectible", status: "NotStarted", note: "" },
+    { name: "Flamberge", tag: "Collectible", status: "NotStarted", note: "" },
+    { name: "Deus Ex Machina", tag: "Collectible", status: "NotStarted", note: "" },
+    { name: "Pandemonium", tag: "Collectible", status: "NotStarted", note: "" },
+    { name: "Aegis", tag: "Collectible", status: "NotStarted", note: "" },
+    { name: "Falcon Eyes", tag: "Collectible", status: "NotStarted", note: "" }
+  ],
+  emotes: [
+    { name: "Sit", tag: "Collectible", status: "NotStarted", note: "Available at the start" },
+    { name: "Check Ground", tag: "Collectible", status: "NotStarted", note: "Available at the start" },
+    { name: "Show Off Clothes", tag: "Collectible", status: "NotStarted", note: "Talk to Antonia in the Hotel immediately upon first arrival" },
+    { name: "Remembrance", tag: "Collectible", status: "NotStarted", note: "Elysion Boulevard Entrance: Collect and read the Frozen Man’s Letter found on a white sofa in an apartment before the rooftop elite enemy and next Stargazer" },
+    { name: "Stalker’s Promise", tag: "Collectible", status: "NotStarted", note: "Defeat the Stalker named Survivor in Workshop Union Culvert, found by dropping down near the hanging puppets instead of following the boss route" },
+    { name: "Fear", tag: "Collectible", status: "NotStarted", note: "Talk to Venigni in Venigni Works Control Room before he moves to the Hotel (before or immediately after King’s Flame fight)" },
+    { name: "Swagger", tag: "Collectible", status: "NotStarted", note: "After defeating King’s Flame, talk to Venigni in the Hotel and exhaust all dialogue options" },
+    { name: "Pray", tag: "Collectible", status: "NotStarted", note: "Complete Cecile’s sidequest in St. Frangelico Cathedral Library, return the Archbishop Holy Mark, defeat the boss, then read her note on the floor" },
+    { name: "Taunt", tag: "Collectible", status: "NotStarted", note: "After killing the Eldest of the Black Rabbit Brotherhood" },
+    { name: "Clap", tag: "Collectible", status: "NotStarted", note: "Obtain the Portrait of a Boy from the Black Rabbit Brotherhood, hang it in the Hotel, then talk to Gepetto" },
+    { name: "Sad", tag: "Collectible", status: "NotStarted", note: "Julian the Gentleman sidequest: Accept his request, find his puppet wife, return to him, and choose to lie" },
+    { name: "Respect", tag: "Collectible", status: "NotStarted", note: "After defeating Champion Victor, use Simon’s key to open the green door past the greenhouse to obtain the gesture and unlock respec" },
+    { name: "Beg", tag: "Collectible", status: "NotStarted", note: "Give a Golden Fruit to the Red Fox and Black Cat after Champion Victor when meeting them near the train" },
+    { name: "Greet", tag: "Collectible", status: "NotStarted", note: "Talk to Antonia after defeating the Puppet-Devouring Green Monster" },
+    { name: "Anger", tag: "Collectible", status: "NotStarted", note: "After fighting the Corrupted Parade Master, talk to Antonia in Gepetto's office" },
+    { name: "Happy", tag: "Collectible", status: "NotStarted", note: "Talk to Test Subject 826 after reaching him via the elevator near the last Trinity door in Arche Abbey Outer Wall" },
+    { name: "Entreat", tag: "Collectible", status: "NotStarted", note: "After defeating Laxasia The Complete, cross the bridge and choose 'Giving her Peace'" }
+  ],
+  vessels: [
+    { name: "Jeweled Cryptic Vessel", tag: "Collectible", status: "NotStarted", note: "Estella Opera House Entrance: Past the Bruiser Clown downstairs, find a room with two ladders; take the short ladder up to a chest. Then go to Cerasani Alley / Krat Central Station Street, follow the river street to the cliff edge and use the 'Check Ground' gesture to obtain the reward" },
+    { name: "Old Cryptic Vessel", tag: "Collectible", status: "NotStarted", note: "Barren Swamp Bridge: Talk to Hugo. Then at Path of the Pilgrim Stargazer, ride the elevator, exit the shack, go uphill to the shack with the bleak tree and hanging laundry matching the picture, talk to the NPC to get the key, enter the shack, and loot the chest" },
+    { name: "Rusty Cryptic Vessel", tag: "Collectible", status: "NotStarted", note: "Purchase from Polendina for 1,000 Ergo after handing over supply boxes. Additional clue found inside the cave where you first meet Hugo the Explorer at the Barren Swamp Bridge Stargazer" },
+    { name: "Alidoro’s Cryptic Vessel", tag: "Collectible", status: "NotStarted", note: "Relic of Trismegistus Combat Field: Kill Alidoro the Hound during the Relic of Trismegistus chapter" },
+    { name: "Crafted Cryptic Vessel", tag: "Collectible", status: "NotStarted", note: "St. Frangelico Cathedral Chapel: Beneath the decay pool, push down the brazier, return below, and open the door with the chest. Then shoot or hit the hanged puppet on Alchemist Bridge in Elysion Boulevard, return via the Inside the House on Elysion Boulevard Stargazer, go down the elevator and through the gate to the bridge where Gepetto was saved; collect the dropped clue. Teleport back, go to the balcony, and open the door on the right" },
+    { name: "Mechanical Cryptic Vessel", tag: "Collectible", status: "NotStarted", note: "Arche Abbey Broken Rift: After climbing to the top floor with the firepit and tentacled elite enemy, go past him and take the second right path to a chest. Then go to the Abandoned Apartment Stargazer, cross the sign-bridge, take the left path past zombie dogs, climb the balcony stairs, equip Frozen Feast, talk to the merchant, and obtain the reward" }
+  ],
+  records: [
+    { name: "Feel", tag: "Collectible", status: "NotStarted", note: "Inside the House on Elysion Boulevard" },
+    { name: "Divine Service", tag: "Collectible", status: "NotStarted", note: "Obtain from Sister Cecile in the St. Frangelico Cathedral Library" },
+    { name: "Someday", tag: "Collectible", status: "NotStarted", note: "Purchase from the Wandering Merchant in the Red Lobsters Inn, Malum District" },
+    { name: "Fascination", tag: "Collectible", status: "NotStarted", note: "Dropped by Adelina after giving her the Bright Red Apple and defeating the King of Puppets" },
+    { name: "Quixotic", tag: "Collectible", status: "NotStarted", note: "After defeating Champion Victor in the Grand Exhibition Conference Room" },
+    { name: "Why", tag: "Collectible", status: "NotStarted", note: "Obtained through Belle's questline. WARNING: Start before defeating Champion Victor or Belle dies" },
+    { name: "Misty E'rA", tag: "Collectible", status: "NotStarted", note: "Hermit's Cave near the Barren Swamp Bridge Stargazer" },
+    { name: "Far East Princess", tag: "Collectible", status: "NotStarted", note: "After deciphering Alidoro's cipher, talk to Eugénie and choose to lie that he was a talented Stalker" },
+    { name: "Memory of Beach", tag: "Collectible", status: "NotStarted", note: "Complete The Story of the Refined Old Lady, defeat Laxasia The Complete, talk to Polendina, then find the record on Antonia's chair in Gepetto's Office" },
+    { name: "Shadow Flower", tag: "Collectible", status: "NotStarted", note: "After defeating Laxasia The Complete, meet Sophia and choose 'Give her Peace', then find the record on her chair" },
+    { name: "Proposal, Flower, Wolf Part 1", tag: "Collectible, NG", status: "NotStarted", note: "Reward for finishing The Story of a Stranger Girl achievement. Easily missable" },
+    { name: "Quixotic (Golden)", tag: "Collectible, NG", status: "NotStarted", note: "Purchase from the Wandering Merchant at Inside the House on Elysion Boulevard Stargazer for 10,000 Ergo" },
+    { name: "Shadow Flower (Golden)", tag: "Collectible, NG", status: "NotStarted", note: "Purchase from the Wandering Merchant in Lorenzini Arcade for 10,000 Ergo" },
+    { name: "Memory of Beach (Golden)", tag: "Collectible, NG", status: "NotStarted", note: "Purchase from the Wandering Merchant at the Abandoned Apartment Stargazer for 10,000 Ergo" },
+    { name: "Proposal, Flower, Wolf Part 1 (Golden)", tag: "Collectible, NG", status: "NotStarted", note: "Purchase from the Wandering Merchant at Cerasani Alley Stargazer for 6,000 Ergo" },
+    { name: "Fascination (Golden)", tag: "Collectible, NG", status: "NotStarted", note: "Obtain through Subject 826's questline" }
+  ],
+  dlcBosses: [
+  { name: "Tyrannical Predator", tag: "Required, DLC", status: "NotStarted", note: ""},
+  { name: "Markiona, Puppeteer of Death", tag: "Required, DLC", status: "NotStarted", note: ""},
+  { name: "Veronique, Leader of the Sweepers", tag: "Required, DLC", status: "NotStarted", note: ""},
+  { name: "Two-Faced Overseer", tag: "Required, DLC", status: "NotStarted", note: ""},
+  { name: "Premetamorphic Green Hunter", tag: "Optional, DLC", status: "NotStarted", note: ""},
+  { name: "Anguished Guardian of the Ruins", tag: "Required, DLC", status: "NotStarted", note: ""},
+  { name: "Lumacchio, Leader of the Bastards", tag: "Required, DLC", status: "NotStarted", note: ""},
+  { name: "Arlecchino, the Blood Artist", tag: "Required, DLC", status: "NotStarted", note: ""}
+  ],
+  dlcGear:[
+    { name: "Icarus - Legion Arm", tag: "Collectible, DLC", status: "NotStarted", note: "" },
+    { name: "Cataclysm - Legion Arm", tag: "Collectible, DLC", status: "NotStarted", note: "" },
+    { name: "Royal Horn Bow", tag: "Collectible, DLC", status: "NotStarted", note: "" },
+    { name: "Lorenzini Bolt", tag: "Collectible, DLC", status: "NotStarted", note: "" },
+    { name: "Maniac's Pinwheel", tag: "Collectible, DLC", status: "NotStarted", note: "" },
+    { name: "La Vandetta", tag: "Collectible, DLC", status: "NotStarted", note: "" },
+    { name: "Puppet of the Future's Welder", tag: "Collectible, DLC", status: "NotStarted", note: "" },
+    { name: "Arche's Guardian", tag: "Collectible, DLC", status: "NotStarted", note: "" },
+    { name: "Silent Evangelist's Mace", tag: "Collectible, DLC", status: "NotStarted", note: "" },
+    { name: "Death's Talon", tag: "Collectible, DLC", status: "NotStarted", note: "" },
+    { name: "Pale Knight", tag: "Collectible, DLC", status: "NotStarted", note: "" },
+    { name: "Monad's Rose Sword", tag: "Collectible, DLC", status: "NotStarted", note: "" }
+  ],
+  dlcEmotes:[
+    { name: "Shiver", tag: "Collectible, DLC", status: "NotStarted", note: "" },
+    { name: "Play Dead", tag: "Collectible, DLC", status: "NotStarted", note: "" },
+    { name: "Tap Dance", tag: "Collectible, DLC", status: "NotStarted", note: "" },
+    { name: "Cheer", tag: "Collectible, DLC", status: "NotStarted", note: "" },
+    { name: "Doubt", tag: "Collectible, DLC", status: "NotStarted", note: "" },
+    { name: "Heart", tag: "Collectible, DLC", status: "NotStarted", note: "" },
+    { name: "Peer into Distance", tag: "Collectible, DLC", status: "NotStarted", note: "" },
+    { name: "Deep Bow", tag: "Collectible, DLC", status: "NotStarted", note: "" }
+  ],
+  dlcCiphers:[
+    { name: "Bloody Cipher Machine", tag: "Collectible, DLC", status: "NotStarted", note: "" },
+    { name: "Corroded Cipher Machine", tag: "Collectible, DLC", status: "NotStarted", note: "" },
+    { name: "Frosted Cipher Machine", tag: "Collectible, DLC", status: "NotStarted", note: "" }
+  ],
+  dlcRecords:[
+    { name: "Lisrim", tag: "Collectible, DLC", status: "NotStarted", note: "" },
+    { name: "Lisrim (Gold)", tag: "Collectible, DLC, NG", status: "NotStarted", note: "" },
+    { name: "The Clear Blue Sky", tag: "Collectible, DLC", status: "NotStarted", note: "" },
+    { name: "The Clear Blue Sky (Gold)", tag: "Collectible, DLC, NG", status: "NotStarted", note: "" },
+    { name: "Nightmare", tag: "Collectible, DLC", status: "NotStarted", note: "" },
+    { name: "Nightmare (Gold)", tag: "Collectible, DLC, NG", status: "NotStarted", note: "" },
+    { name: "Survivor", tag: "Collectible, DLC", status: "NotStarted", note: "" },
+    { name: "Survivor Gold Edition", tag: "Collectible, DLC", status: "NotStarted", note: "" }
+  ]
+};
+
+let currentCategory = "bosses";
+
+function renderTable() {
+  const tbody = document.querySelector("#questsTable tbody");
+
+  const recentList = document.getElementById('recentlyPlayed');
+  const inProgressList = document.getElementById('inProgress');
+  const summaryBox = document.getElementById('summary');
+  const completionText = document.getElementById('completionText');
+  const completionBar = document.getElementById('completionBar');
+  const completionTextStats = document.getElementById('completionTextStats');
+  const completionBarStats = document.getElementById('completionBarStats');
+
+  recentList.innerHTML = '';
+  inProgressList.innerHTML = '';
+  summaryBox.innerHTML = '';
+
+  let totalQuests = 0;
+  let completed = 0;
+  let inProgress = 0;
+  let notStarted = 0;
+  let onHold = 0;
+  let hundred = 0;
+
+  const recentFrag = document.createDocumentFragment();
+  const inProgressFrag = document.createDocumentFragment();
+
+  /* ---------------------------
+      TABLE RENDER
+  ---------------------------- */
+tbody.innerHTML = quests[currentCategory].map((q, i) => {
+
+  // FIX: convert tag string → array inside the map
+  const tags = Array.isArray(q.tag)
+    ? q.tag
+    : q.tag.split(",").map(t => t.trim());
+
+  return `
+    <tr>
+      <td>
+        <div>${q.name}</div> 
+        ${q.note && q.note.trim() !== "" ? `<div class="note">${q.note}</div>` : ""}
+      </td>
+      <td>${currentCategory}</td>
+      <td>
+        <div class="tag-container">
+          ${tags.map(t => `
+            <span class="tag ${t.replace(/\s+/g, '-')}" data-type="${t}">
+              ${t}
+            </span>
+          `).join("")}
+        </div>
+      </td>
+      <td>
+        <select class="statusSelect status${q.status}" data-cat="${currentCategory}" data-index="${i}">
+          <option value="NotStarted" ${q.status==="NotStarted"?"selected":""}>Not Started</option>
+          <option value="InProgress" ${q.status==="InProgress"?"selected":""}>In Progress</option>
+          <option value="OnHold" ${q.status==="OnHold"?"selected":""}>On Hold</option>
+          <option value="Completed" ${q.status==="Completed"?"selected":""}>Completed</option>
+          <option value="Hundred" ${q.status==="Hundred"?"selected":""}>100%</option>
+        </select>
+      </td>
+    </tr>
+  `;
+}).join("");
+
+  /* ---------------------------
+      COUNT STATUSES
+  ---------------------------- */
+  quests[currentCategory].forEach(q => {
+    totalQuests++;
+
+    switch (q.status) {
+      case "Completed":
+        completed++;
+        const r1 = document.createElement("li");
+        r1.textContent = q.name;
+        recentFrag.appendChild(r1);
+        break;
+
+      case "Hundred":
+        hundred++;
+        completed++;
+        const r2 = document.createElement("li");
+        r2.textContent = q.name + " (100%)";
+        recentFrag.appendChild(r2);
+        break;
+
+      case "InProgress":
+        inProgress++;
+        const ip = document.createElement("li");
+        ip.textContent = q.name;
+        inProgressFrag.appendChild(ip);
+        break;
+
+      case "NotStarted":
+        notStarted++;
+        break;
+
+      case "OnHold":
+        onHold++;
+        break;
+    }
+  });
+
+  /* ---------------------------
+      APPEND LISTS
+  ---------------------------- */
+  recentList.appendChild(recentFrag);
+  inProgressList.appendChild(inProgressFrag);
+
+  /* ---------------------------
+      COMPLETION BAR
+  ---------------------------- */
+  let total = 0;
+  let done = 0;
+
+  // Count ALL quests across ALL categories
+  Object.values(quests).forEach(category => {
+    category.forEach(q => {
+      total++;
+
+      if (q.status === "Completed" || q.status === "Hundred") {
+        done++;
+      }
+    });
+  });
+
+  const percent = total ? (done / total) * 100 : 0;
+
+  // Dashboard bar
+  if (completionBar) completionBar.style.width = percent + "%";
+  if (completionText) completionText.textContent = `${done} / ${total} Completed`;
+
+  // Stats page bar
+  if (completionBarStats) completionBarStats.style.width = percent + "%";
+  if (completionTextStats) completionTextStats.textContent = `${done} / ${total} Completed`;
+
+  /* ---------------------------
+      SUMMARY BOX
+  ---------------------------- */
+  if (summaryBox) {
+    summaryBox.innerHTML = `
+      <li>Total: ${totalQuests}</li>
+      <li>100%: ${hundred}</li>
+      <li>Completed: ${completed}</li>
+      <li>In Progress: ${inProgress}</li>
+      <li>Not Started: ${notStarted}</li>
+      <li>On Hold: ${onHold}</li>
+    `;
+  }
+}
+
+// Update status when dropdown changes
+document.addEventListener("change", e => {
+  if (e.target.matches("select[data-cat]")) {
+    const cat = e.target.dataset.cat;
+    const index = e.target.dataset.index;
+    quests[cat][index].status = e.target.value;
+    localStorage.setItem("lies-of-p-checklist", JSON.stringify(quests));
+    renderTable();
+  }
+});
+
+/* ---------- Search ---------- */
+const searchInput = document.getElementById('gameSearch');
+
+searchInput.addEventListener('input', () => {
+  const query = searchInput.value.toLowerCase();
+  const tbody = document.querySelector('#questsTable tbody');
+
+  Array.from(tbody.querySelectorAll('tr')).forEach(row => {
+    const title = row.cells[0]?.textContent.toLowerCase() || '';
+    const tags = row.cells[2]?.textContent.toLowerCase() || '';
+
+    // safe access to selects (may be missing in some row types)
+    const statusSelect = row.cells[3]?.querySelector('select');
+
+    const statusVal = (statusSelect?.value || '').toLowerCase();
+    // human-friendly label for matching (so "hundred" matches "100%")
+    let statusLabel = statusVal;
+    if (statusVal === 'hundred') statusLabel = '100%';
+    if (statusVal === 'inprogress') statusLabel = 'in progress';
+    if (statusVal === 'notstarted') statusLabel = 'not started';
+    if (statusVal === 'onhold') statusLabel = 'on hold';
+    if (statusVal === 'completed') statusLabel = 'completed';
+
+    const match =
+      title.includes(query) ||
+      statusVal.includes(query) ||
+      statusLabel.includes(query) ||
+      tags.includes(query);
+
+    row.style.display = match ? '' : 'none';
+  });
+});
+
+/* ---------- theme handling -----------*/
+const SettingsModal = document.getElementById("settingsModal");
+const openSettings = document.getElementById("openSettingsModal");
+const closeSettings = document.getElementById("closeSettingsModal");
+
+// Open modal
+openSettings.addEventListener("click", (e) => {
+  e.preventDefault();
+  SettingsModal.style.display = "flex";
+});
+
+// Close modal
+closeSettings.addEventListener("click", () => {
+  SettingsModal.style.display = "none";
+});
+
+// Click outside modal closes it
+SettingsModal.addEventListener("click", (e) => {
+  if (e.target === SettingsModal) SettingsModal.style.display = "none";
+});
+
+// Theme buttons
+document.querySelectorAll(".theme-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const theme = btn.dataset.theme;
+
+    if (theme === "alt") {
+      document.body.classList.add("alt-theme");
+    } else {
+      document.body.classList.remove("alt-theme");
+    }
+    
+    if (theme === "scandi") {
+      document.body.classList.add("scandi-theme");
+    } else {
+      document.body.classList.remove("scandi-theme");
+    }
+
+    if (theme === "discord-dark") {
+      document.body.classList.add("discord-theme");
+    } else {
+      document.body.classList.remove("discord-theme");
+    }
+
+    localStorage.setItem("theme", theme);
+  });
+});
+
+// Load saved theme
+if (localStorage.getItem("theme") === "alt") {
+  document.body.classList.add("alt-theme");
+}
+
+if (localStorage.getItem("theme") === "scandi") {
+  document.body.classList.add("scandi-theme");
+}
+
+if (localStorage.getItem("theme") === "discord-dark") {
+  document.body.classList.add("discord-theme");
+}
+
+/* ---------- tab handling -----------*/
+const dashboardContent = document.getElementById('dashboardContent');
+const statsContent = document.getElementById('statsContent');
+
+const menuLinks = document.querySelectorAll('.navbar .menu a');
+const dashboardLink = [...menuLinks].find(a => a.textContent.trim() === 'Dashboard');
+const statsLink = [...menuLinks].find(a => a.textContent.trim() === 'Stats');
+
+function showDashboard() {
+  dashboardContent.style.display = 'block';
+  statsContent.style.display = 'none';
+  dashboardLink.classList.add('active');
+  statsLink.classList.remove('active');
+}
+
+function showStats() {
+  dashboardContent.style.display = 'none';
+  statsContent.style.display = 'block';
+  statsLink.classList.add('active');
+  dashboardLink.classList.remove('active');
+  updateStats();
+}
+
+dashboardLink.addEventListener('click', e => { e.preventDefault(); showDashboard(); });
+statsLink.addEventListener('click', e => { e.preventDefault(); showStats(); });
+
+// Save/load progress
+const saved = JSON.parse(localStorage.getItem("lies-of-p-checklist"));
+if (saved) Object.assign(quests, saved);
+
+// Handle category buttons
+document.querySelectorAll(".button-report[data-cat]").forEach(btn => {
+  btn.addEventListener("click", () => {
+    currentCategory = btn.dataset.cat;
+    renderTable();
+  });
+});
+
+/* ---------- init ---------- */
+renderTable();
+</script>
+
+</body>
+</html>
