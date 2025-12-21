@@ -12,6 +12,7 @@ A sleek, lightweight checklist web app to help you track boss in **Lies of P**. 
   - Weapons
   - Legion Arms
   - Collectibles
+  - DLC
 - 💾 Progress saved locally in your browser
 - 📱 Responsive layout (desktop & mobile friendly)
 - 🖤 Stylish, dark-themed UI
