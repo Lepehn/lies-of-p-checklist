@@ -1,7 +1,7 @@
 # 📋 lies-of-p-checklist
 https://lepehn.github.io/lies-of-p-checklist/
 
-A sleek, lightweight checklist web app to help you track boss in **Lies of P**. Inspired by fan-made guides for games like *Dark Souls* and *Bloodborne*, this project helps you stay organized without spoilers or unnecessary fluff.
+A sleek, lightweight checklist web app to help you track progress in **Lies of P**. Inspired by fan-made guides for games like *Dark Souls* and *Bloodborne*, this project helps you stay organized without spoilers or unnecessary fluff.
 
 ## 🧩 Features
 
