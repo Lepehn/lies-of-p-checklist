@@ -944,9 +944,30 @@ searchInput.addEventListener("input", applyFilters);
 
 function applyFilters() {
   const query = searchInput.value.toLowerCase();
-  document.querySelectorAll("#questsTable tbody tr").forEach(row => {
-    const text = row.textContent.toLowerCase();
-    row.style.display = !query || text.includes(query) ? "" : "none";
+  const tbody = document.querySelector('#questsTable tbody');
+
+  Array.from(tbody.querySelectorAll('tr')).forEach(row => {
+    const title = row.cells[0]?.textContent.toLowerCase() || '';
+    const tags  = row.cells[2]?.textContent.toLowerCase() || '';
+
+    const statusSelect = row.cells[3]?.querySelector('select');
+    const statusVal = (statusSelect?.value || '').toLowerCase();
+
+    // Map value to human-readable label
+    let statusLabel = statusVal;
+    if (statusVal === 'hundred')     statusLabel = '100%';
+    if (statusVal === 'inprogress')  statusLabel = 'in progress';
+    if (statusVal === 'notstarted')  statusLabel = 'not started';
+    if (statusVal === 'onhold')      statusLabel = 'on hold';
+
+    const match =
+      !query ||
+      title.includes(query) ||
+      statusVal.includes(query) ||
+      statusLabel.includes(query) ||
+      tags.includes(query);
+
+    row.style.display = match ? '' : 'none';
   });
 }
 
