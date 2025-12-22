@@ -1,11 +1,9 @@
-# lies-of-p-checklist
+# 📋 lies-of-p-checklist
 https://lepehn.github.io/lies-of-p-checklist/
 
 A sleek, lightweight checklist web app to help you track boss in **Lies of P**. Inspired by fan-made guides for games like *Dark Souls* and *Bloodborne*, this project helps you stay organized without spoilers or unnecessary fluff.
 
----
-
-## 📋 Features
+## 🧩 Features
 
 - ✅ Track progress across:
   - Bosses
@@ -13,11 +11,28 @@ A sleek, lightweight checklist web app to help you track boss in **Lies of P**. 
   - Legion Arms
   - Collectibles
   - DLC
+- 🗂️ Filter by type:
+  - Bosses
+  - Weapons
+  - Legion Arms
+  - Collectibles
+  - DLC
+- 🗂️ Filter by status:
+  - Not Started
+  - In Progress
+  - On Hold
+  - Completed
+- 📦 Export and import your checklist list as a `.json` file
+- 📊 View progress tracking per type
+- 📈 Stats with:
+  - Bar chart for **Overall Status**
+  - Total overall counts and **completion percentages**
+- 🎯 See percentage completed overall and by type
+- 🧾 See completed, in progress, and summary of status totals
+- 🖱️ Tab-based navigation for type-specific lists
+- 🔄 Responsive charts with consistent sizing and aspect ratio
 - 💾 Progress saved locally in your browser
 - 📱 Responsive layout (desktop & mobile friendly)
-- 🖤 Stylish, dark-themed UI
-
----
 
 ## 💾 Saving Your Progress
 
