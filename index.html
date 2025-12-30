@@ -404,6 +404,8 @@ body.discord-theme {
   <!-- Dashboard content -->
   <div id="dashboardContent">
   <h1>Dashboard</h1>
+    <span class="button-report playthrough-btn active" data-pt="1">Playthrough 1</span>
+  	<span class="button-report playthrough-btn" data-pt="2">Playthrough 2</span>
       <div class="grid">
       <div class="card">
         <div class="card-header"><h3><span class="material-symbols-outlined">check</span> Recently Completed</h3></div>
@@ -420,20 +422,20 @@ body.discord-theme {
         <ul id="summary"></ul>
       </div>
       
-            <div class="card games">
-        <div class="card-header">
-          <h3>Lies of P Checklist</h3>
-          <span class="button-report" id="exportBtn">          
-           <span class="material-symbols-outlined">download</span>Export
-          </span>
-          
-          <span class="button-report" id="importBtn">
-           <span class="material-symbols-outlined">upload</span>Import
-          </span>
-          
-          <input type="file" id="importJSON" accept=".json" style="display:none;">
-          <input type="text" id="gameSearch" placeholder="Search...">
-        </div>
+        <div class="card games">
+          <div class="card-header">
+            <h3>Lies of P Checklist</h3>
+            <span class="button-report" id="exportBtn">          
+             <span class="material-symbols-outlined">download</span>Export
+            </span>
+
+            <span class="button-report" id="importBtn">
+             <span class="material-symbols-outlined">upload</span>Import
+            </span>
+
+            <input type="file" id="importJSON" accept=".json" style="display:none;">
+            <input type="text" id="gameSearch" placeholder="Search...">
+          </div>
        
        <span class="button-report" data-cat="bosses">Bosses</span>
        <span class="button-report" data-cat="miniBosses">Mini-Bosses</span>
@@ -724,7 +726,8 @@ const GAME = {
 /* =====================================================
    STATE
    ===================================================== */
-
+   
+let currentPlaythrough = 1;
 let currentCategory = Object.keys(GAME.categories)[0];
 let categoryChart;
 
@@ -734,10 +737,39 @@ let categoryChart;
    ===================================================== */
 
 const saved = JSON.parse(localStorage.getItem(GAME.storageKey));
-if (saved) Object.assign(GAME.data, saved);
+
+if (saved?.playthroughs) {
+  GAME.playthroughs = saved.playthroughs;
+} 
+else if (saved) {
+  // 🔁 MIGRATE OLD SAVE → PT1
+  GAME.playthroughs = {
+    1: saved,
+    2: structuredClone(GAME.data)
+  };
+
+  localStorage.setItem(
+    GAME.storageKey,
+    JSON.stringify({ playthroughs: GAME.playthroughs })
+  );
+} 
+else {
+  // 🆕 FIRST RUN
+  GAME.playthroughs = {
+    1: structuredClone(GAME.data),
+    2: structuredClone(GAME.data)
+  };
+}
+
+function getCurrentData() {
+  return GAME.playthroughs[currentPlaythrough];
+}
 
 function saveGame() {
-  localStorage.setItem(GAME.storageKey, JSON.stringify(GAME.data));
+  localStorage.setItem(
+    GAME.storageKey,
+    JSON.stringify({ playthroughs: GAME.playthroughs })
+  );
 }
 
 
@@ -768,9 +800,9 @@ function updateStats() {
   const values = [];
 
   for (const key in GAME.categories) {
-    if (!GAME.data[key]) continue;
+    if (!getCurrentData()[key]) continue;
     labels.push(GAME.categories[key]);
-    values.push(completionPercent(GAME.data[key]));
+    values.push(completionPercent(getCurrentData()[key]));
   }
 
   const ctx = document.getElementById("categoryChart")?.getContext("2d");
@@ -849,7 +881,7 @@ function renderTable() {
   const recentFrag = document.createDocumentFragment();
   const inProgressFrag = document.createDocumentFragment();
 
-  tbody.innerHTML = GAME.data[currentCategory].map((q, i) => {
+  tbody.innerHTML = getCurrentData()[currentCategory].map((q, i) => {
     const tags = splitTags(q.tag);
 
     return `
@@ -877,7 +909,7 @@ function renderTable() {
     `;
   }).join("");
 
-  GAME.data[currentCategory].forEach(q => {
+  getCurrentData()[currentCategory].forEach(q => {
     totalQuests++;
 
     switch (q.status) {
@@ -893,7 +925,7 @@ function renderTable() {
   inProgressList.appendChild(inProgressFrag);
 
   let total = 0, done = 0;
-  Object.values(GAME.data).forEach(cat =>
+  Object.values(getCurrentData()).forEach(cat =>
     cat.forEach(q => { total++; if (isCompleted(q.status)) done++; })
   );
 
@@ -933,10 +965,25 @@ document.addEventListener("change", e => {
   if (!e.target.matches(".statusSelect")) return;
 
   const index = e.target.dataset.index;
-  GAME.data[currentCategory][index].status = e.target.value;
+  getCurrentData()[currentCategory][index].status = e.target.value;
 
   saveGame();
   renderTable();
+});
+
+// Playthough handler
+document.querySelectorAll(".playthrough-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".playthrough-btn")
+      .forEach(b => b.classList.remove("active"));
+
+    btn.classList.add("active");
+
+    currentPlaythrough = Number(btn.dataset.pt);
+
+    renderTable();
+    updateStats();
+  });
 });
 
 const searchInput = document.getElementById("gameSearch");
@@ -1063,6 +1110,71 @@ if (localStorage.getItem("theme") === "discord-dark") {
   document.body.classList.add("discord-theme");
 }
 
+/* =====================================================
+   Export/Import
+   ===================================================== */
+document.getElementById("exportBtn").addEventListener("click", () => {
+  const saveData = {
+    version: 2,
+    playthroughs: GAME.playthroughs
+  };
+
+  const blob = new Blob(
+    [JSON.stringify(saveData, null, 2)],
+    { type: "application/json" }
+  );
+
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+
+  a.href = url;
+  a.download = `${GAME.id}-checklist-save.json`;
+  a.click();
+
+  URL.revokeObjectURL(url);
+});
+
+document.getElementById("importBtn").addEventListener("click", () => {
+  document.getElementById("importJSON").click();
+});
+
+document.getElementById("importJSON").addEventListener("change", e => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = () => {
+    try {
+      const imported = JSON.parse(reader.result);
+
+      // 🧠 NEW MULTI-PT FORMAT
+      if (imported.playthroughs) {
+        GAME.playthroughs = imported.playthroughs;
+      }
+      // 🧠 OLD FORMAT → MIGRATE TO PT1
+      else {
+        GAME.playthroughs = {
+          1: imported,
+          2: structuredClone(GAME.data)
+        };
+      }
+
+      saveGame();
+      renderTable();
+      updateStats();
+
+      alert("Import successful!");
+    } catch (err) {
+      alert("Invalid save file.");
+    }
+
+    e.target.value = ""; // reset input
+  };
+
+  reader.readAsText(file);
+});
+
 
 /* =====================================================
    INIT
@@ -1072,3 +1184,4 @@ renderTable();
 </script>
 </body>
 </html>
+
